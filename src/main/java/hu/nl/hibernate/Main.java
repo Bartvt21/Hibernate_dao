@@ -19,15 +19,18 @@ public class Main {
       Session session = factory.openSession();
       Transaction t = session.beginTransaction();
 
-     // Log log = new Log(1,"Hibernate works!");
-      Reiziger reiziger = new Reiziger(1, "Bert", "Tongeren");
+      Reiziger reiziger = new Reiziger(1, "Bert", "van", "Tongeren", "2019-05-23");
+      OV_Chipkaart ov = new OV_Chipkaart(909001, "2019-05-23", 1, 56, reiziger.getReizigerid());
+      ov.setReiziger(reiziger);
       
-      //session.save(reiziger);
-      //session.update(reiziger);
-      //session.update(reiziger);
+      reiziger.saveOvChipkaart(ov);
       
+      session.save(ov);
+      session.save(reiziger);
+
+     
       t.commit();  
-      System.out.println("successfully saved: " + reiziger.getNaam());    
+      System.out.println("successfully saved");    
       factory.close();  
       session.close();   
   }

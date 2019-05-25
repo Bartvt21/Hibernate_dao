@@ -12,5 +12,6 @@
         <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>  
     <mapping resource="Log.hbm.xml"/>
     <mapping resource="Reiziger.hbm.xml"/>
+    <mapping resource="OV_Chipkaart.hbm.xml"/>
     </session-factory>
 </hibernate-configuration> 
