@@ -2,36 +2,24 @@ package hu.nl.hibernate;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import org.hibernate.Session;  
-import org.hibernate.SessionFactory;  
-import org.hibernate.Transaction;  
-import org.hibernate.cfg.Configuration;
+
 
 public class Main {
-  private static SessionFactory factory;
+	
   public static void main(String[] args) throws SQLException, ParseException {
-      try {
-        factory = new Configuration().configure().buildSessionFactory();
-      } catch (Throwable ex) {
-        System.err.println("Failed to create sessionFactory object." + ex);
-        throw new ExceptionInInitializerError(ex);
-      }
-      Session session = factory.openSession();
-      Transaction t = session.beginTransaction();
-
-      Reiziger reiziger = new Reiziger(1, "Bert", "van", "Tongeren", "2019-05-23");
-      OV_Chipkaart ov = new OV_Chipkaart(909001, "2019-05-23", 1, 56, reiziger.getReizigerid());
-      ov.setReiziger(reiziger);
-      
-      reiziger.saveOvChipkaart(ov);
-      
-      session.save(ov);
-      session.save(reiziger);
-
+	  
+	  ReizigerOracleDaoImpl rodi = new ReizigerOracleDaoImpl();
+	  OV_ChipkaartOracleDaoImpl ovodi = new OV_ChipkaartOracleDaoImpl();
      
-      t.commit();  
-      System.out.println("successfully saved");    
-      factory.close();  
-      session.close();   
+      Reiziger reiziger = new Reiziger(2, "Klaas", "van", "test", "2019-05-23");
+      OV_Chipkaart ov1 = new OV_Chipkaart(90909, "2019-05-23", 1, 96, reiziger.getReizigerid());
+      OV_Chipkaart ov2 = new OV_Chipkaart(90905, "2019-05-23", 1, 86, reiziger.getReizigerid());
+      
+      
+  
+      
+      
+      System.out.println(rodi.findall());    
+      
   }
 }

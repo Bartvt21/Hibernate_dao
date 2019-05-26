@@ -2,26 +2,27 @@ package hu.nl.hibernate;
 
 import java.sql.Date;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Entity
+
+@Entity  
+@Table(name= "OV_CHIPKAART") 
 public class OV_Chipkaart {
 
-	@Id
-	@GeneratedValue
+	@Id 
 	private int kaartNummer;
 	private Date geldigTot;
 	private int klasse;
 	private double saldo;
 	private int reizigerid;
 	
-	@ManyToOne
-	@JoinColumn(name="reizigerid")
-	private Reiziger r;
+	
+	public OV_Chipkaart() {
+		
+	}
 	
 	public OV_Chipkaart(int kaartNummer, String geldigTot, int klasse, double saldo, int reizigerid) {
 		this.kaartNummer = kaartNummer;
@@ -46,11 +47,7 @@ public class OV_Chipkaart {
 	public int getKaartNummer() {
 		return kaartNummer;
 	}
-	
-	public Reiziger getReiziger() {
-		return this.r;
-	}
-	
+
 	public void setGeldigTot(Date datum) {
 		this.geldigTot = datum;
 	}
@@ -62,20 +59,19 @@ public class OV_Chipkaart {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-	
-	public void setReiziger(Reiziger r) {
-		this.r = r;
-	}
 
 	public void setKaartNummer(int kaartNummer) {
 		this.kaartNummer = kaartNummer;
 	}
-
+	
+	public int getReizigerId() {
+		return this.reizigerid;
+	}
+	
 	
 	public String toString() {
-		return "Kaart nummer: " + this.kaartNummer + " is geldig tot: " + this.geldigTot + " en heeft klasse: " + this.klasse
-				+ " heeft een saldo van: " + this.saldo + ", en het reizigerid van deze kaart is: " + this.reizigerid;
-
+		return this.kaartNummer + " heeft een saldo van : " + this.saldo + " heeft een reiziger: " + this.reizigerid;
 	}
+
 
 }

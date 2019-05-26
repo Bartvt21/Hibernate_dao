@@ -10,8 +10,7 @@
         <property name="connection.username">HIBERNATE_12</property>
         <property name="connection.password">systeem</property>
         <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>  
-    <mapping resource="Log.hbm.xml"/>
-    <mapping resource="Reiziger.hbm.xml"/>
-    <mapping resource="OV_Chipkaart.hbm.xml"/>
+    <mapping class="hu.nl.hibernate.Reiziger"/>
+    <mapping class="hu.nl.hibernate.OV_Chipkaart"/>
     </session-factory>
 </hibernate-configuration> 

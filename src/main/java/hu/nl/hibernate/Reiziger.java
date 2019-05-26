@@ -2,39 +2,45 @@ package hu.nl.hibernate;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity
+@Entity  
+@Table(name= "REIZIGER") 
 public class Reiziger {
 	
-	@Id
-	@GeneratedValue
+	@Id   
 	private int reizigerid;
-	
-	private String voorl;
+	private String voorletters;
 	private String tussenvoegsel;
 	private String achternaam;
-	private Date gbdatum;
+	private Date gebortedatum;
 	
-	@OneToMany(targetEntity=OV_Chipkaart.class, mappedBy="r", cascade=CascadeType.ALL)
-	ArrayList<OV_Chipkaart> mijnOv;
+	@OneToMany(cascade = CascadeType.ALL)  
+	@JoinColumn(name="REIZIGERID")  
+	private List<OV_Chipkaart> mijnKaarten;
+	
+	public Reiziger() {
+		
+	}
 	
 	public Reiziger(int reizigerid, String voorl, String tussenvoegsel, String achternaam, String datum) {
 		this.reizigerid = reizigerid;
-		this.voorl = voorl;
+		this.voorletters = voorl;
 		this.tussenvoegsel = tussenvoegsel;
 		this.achternaam = achternaam;
-		this.gbdatum = Date.valueOf(datum);
-		mijnOv = new ArrayList<OV_Chipkaart>();
+		this.gebortedatum = Date.valueOf(datum);
+		mijnKaarten = new ArrayList<OV_Chipkaart>();
 	}
 	
 	public String getVoorl() {
-		return voorl;
+		return voorletters;
 	}
 	
 	public String getTussenvoel() {
@@ -54,11 +60,11 @@ public class Reiziger {
 	}
 	
 	public Date getGBdatum() {
-		return gbdatum;
+		return gebortedatum;
 	}
 	
 	public void setVoorl(String voorl) {
-		this.voorl = voorl;
+		this.voorletters = voorl;
 	} 
 	
 	public void setTussenvoegsel(String tussenvoegsel) {
@@ -70,26 +76,27 @@ public class Reiziger {
 	}
 	
 	public void setGBdatum(Date datum) {
-		this.gbdatum = datum;
+		this.gebortedatum = datum;
 	}
 	
-	public String getNaam() {
-		return voorl + " " + tussenvoegsel + " " + achternaam;
-	}
-	
-	public ArrayList<OV_Chipkaart> getOV_Chipkaart() {
-		return this.mijnOv;
-	}
-	
-	public void saveOvChipkaart(OV_Chipkaart kaart) {
-		if(!(this.mijnOv.contains(kaart))) {
-			this.mijnOv.add(kaart);
+	public List<OV_Chipkaart> setKaart(OV_Chipkaart kaart) {
+		
+		
+		if(!(this.mijnKaarten.contains(kaart))) {
+			this.mijnKaarten.add(kaart);
 		}
+		
+		return this.mijnKaarten;
 	}
+	
+	public List<OV_Chipkaart> getMijnKaarten() {
+		return this.mijnKaarten;
+	} 
+	
 	
 	public String toString() {
-		String s = "Reiziger: " + this.voorl + " " + this.tussenvoegsel + " " + this.achternaam + " heeft geboortedatum: " + this.getGBdatum() + "\n";
-	
-		return s;
+		return this.voorletters + " " + this.tussenvoegsel + " " + this.achternaam + " heeft reizigerid: " + this.reizigerid + " en heeft ovkaart: " + this.mijnKaarten;
 	}
+
+	
 }
