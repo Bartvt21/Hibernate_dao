@@ -10,4 +10,5 @@ public interface ReizerDao {
 	public boolean saveReiziger(Reiziger reiziger) throws SQLException, ParseException;
 	public boolean update(Reiziger reiziger) throws SQLException, ParseException;
 	public boolean delete(Reiziger reiziger) throws SQLException, ParseException;
+	public boolean execute(Reiziger reiziger, String executeMethod) throws SQLException, ParseException;;
 }

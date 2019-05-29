@@ -13,92 +13,31 @@ public class ReizigerOracleDaoImpl extends OracleBaseDao implements ReizerDao {
 
 	public boolean saveReiziger(Reiziger reiziger) throws SQLException, ParseException {
 		
-		boolean saved = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
-		
-		try {
-		
-			session.save(reiziger);
-			t.commit();
-			saved = true;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}		
-		
-		factory.close();
-		session.close();
-		
-		return saved;
+		return execute(reiziger, "save");
 	}
 
 	public boolean update(Reiziger reiziger) throws SQLException, ParseException {
 		
-		boolean updated = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
-		
-		try {
-		
-			session.update(reiziger);
-			t.commit();
-			updated = true;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}		
-		
-		factory.close();
-		session.close();
-		
-		return updated;
+		return execute(reiziger, "update");
 	}
 
 	public boolean delete(Reiziger reiziger) throws SQLException, ParseException {
 		
-		boolean deleted = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
 		try {
-	
-			
+		
 			OV_ChipkaartOracleDaoImpl ovodi = new OV_ChipkaartOracleDaoImpl();
 			
 			for(OV_Chipkaart kaart : ovodi.findall()) {
 				if(kaart.getReizigerId() == reiziger.getReizigerid()) {
-					
 					ovodi.deleteKaart(kaart);
 				}
 			}
-			
-			session.delete(reiziger);
-			t.commit();
-			deleted = true;
-			
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}		
 		
-		factory.close();
-		session.close();
+		return execute(reiziger, "delete");
 		
-		return deleted;
 	}
 
 	public List<Reiziger> findall() throws SQLException, ParseException {
@@ -123,4 +62,40 @@ public class ReizigerOracleDaoImpl extends OracleBaseDao implements ReizerDao {
 	
 		return allReiziger;
 	}
+	
+	
+	public boolean execute(Reiziger reiziger, String executeMethod) throws SQLException, ParseException {
+		
+		boolean executed = false;
+		
+		OracleBaseDao.getConnection();
+		
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		
+		
+		try {
+			
+			if(executeMethod.equals("save")) {
+				session.save(reiziger);
+			} else if(executeMethod.equals("update")) {
+				session.update(reiziger);
+			} else if(executeMethod.equals("delete")) {
+				session.delete(reiziger);
+			}
+		
+			t.commit();
+			executed = true;
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
+		
+		factory.close();
+		session.close();
+		
+		return executed;
+	}
+	
 }

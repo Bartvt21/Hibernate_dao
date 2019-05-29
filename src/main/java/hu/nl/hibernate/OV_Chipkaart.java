@@ -2,9 +2,13 @@ package hu.nl.hibernate;
 
 import java.sql.Date;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -18,6 +22,10 @@ public class OV_Chipkaart {
 	private int klasse;
 	private double saldo;
 	private int reizigerid;
+	
+	@ManyToOne(cascade = CascadeType.ALL)  
+	@JoinColumn(name = "REIZIGERID")
+	private Reiziger reiziger;
 	
 	
 	public OV_Chipkaart() {

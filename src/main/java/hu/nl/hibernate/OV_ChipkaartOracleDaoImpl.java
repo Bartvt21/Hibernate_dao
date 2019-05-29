@@ -12,82 +12,17 @@ public class OV_ChipkaartOracleDaoImpl extends OracleBaseDao implements OV_Chipk
 
 	public boolean saveKaart(OV_Chipkaart kaart) throws SQLException, ParseException {
 		
-		boolean saved = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
-		
-		try {
-		
-			session.save(kaart);
-			t.commit();
-			saved = true;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}		
-		
-		factory.close();
-		session.close();
-		
-		return saved;
+		return execute(kaart, "save");
 	}
 
 	public boolean updateKaart(OV_Chipkaart kaart) throws SQLException, ParseException {
 		
-		boolean updated = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
-		
-		try {
-		
-			session.update(kaart);
-			t.commit();
-			updated = true;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}		
-		
-		factory.close();
-		session.close();
-		
-		return updated;
+		return execute(kaart, "update");
 	}
 
 	public boolean deleteKaart(OV_Chipkaart kaart) throws SQLException, ParseException {
 		
-		boolean deleted = false;
-		
-		OracleBaseDao.getConnection();
-		
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		
-		try {
-		
-			session.delete(kaart);
-			t.commit();
-			deleted = true;
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}		
-		
-		factory.close();
-		session.close();
-		
-		return deleted;
+		return execute(kaart, "delete");
 	}
 
 	public List<OV_Chipkaart> findall() throws SQLException, ParseException {
@@ -99,6 +34,40 @@ public class OV_ChipkaartOracleDaoImpl extends OracleBaseDao implements OV_Chipk
 		List<OV_Chipkaart> allKaarten = session.createQuery("select o from OV_Chipkaart o", OV_Chipkaart.class).getResultList();  
 		
 		return allKaarten;
+	}
+	
+	public boolean execute(OV_Chipkaart kaart, String executeMethod) throws SQLException, ParseException {
+		
+		boolean executed = false;
+		
+		OracleBaseDao.getConnection();
+		
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		
+		
+		try {
+			
+			if(executeMethod.equals("save")) {
+				session.save(kaart);
+			} else if(executeMethod.equals("update")) {
+				session.update(kaart);
+			} else if(executeMethod.equals("delete")) {
+				session.delete(kaart);
+			}
+		
+			t.commit();
+			executed = true;
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
+		
+		factory.close();
+		session.close();
+		
+		return executed;
 	}
 
 }
